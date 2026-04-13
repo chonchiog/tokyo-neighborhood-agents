@@ -192,6 +192,24 @@ curl -s -X POST "https://filebin.net/BINNAME/filename.kml" \
   --data-binary @output.kml -H "Content-Type: application/octet-stream"
 ```
 
+## Live status check
+
+Use `check_busy.js` to check if places are open right now, get Google Maps ratings, phone numbers, and direct links:
+
+```bash
+source .env && node check_busy.js "restaurant name 1" "restaurant name 2"
+```
+
+This uses the Google Places API (New) and returns:
+- 🟢/🔴 Open or closed right now
+- ⭐ Google Maps rating + review count
+- 📞 Phone number (to call and ask about queue/wait)
+- 📍 Direct Google Maps link (tap to check live crowd on phone)
+
+**Note:** Google does not expose "Popular Times" / live busyness via API. The best way to check if there's a queue is:
+1. Call the restaurant (📞 number provided)
+2. Tap the 📍 Google Maps link on your phone — it shows "Live busyness" in the app
+
 ## Output formatting
 
 Always look up Tabelog ratings (or Google Maps ratings for non-food spots) and include them in the output.
