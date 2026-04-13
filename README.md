@@ -13,6 +13,7 @@ Located in `.github/agents/` — no scripts needed, Copilot does everything.
 | **sushi** | `@sushi` | 🍣 Sushi specialist (omakase, kaiten, standing) |
 | **yakiniku** | `@yakiniku` | 🍖 Yakiniku & BBQ specialist |
 | **tempura-tonkatsu** | `@tempura-tonkatsu` | 🍤 Tempura & tonkatsu specialist |
+| **donburi-teishoku** | `@donburi-teishoku` | 🍚 Rice bowls & set meals specialist |
 | **thai** | `@thai` | 🥡 Thai food specialist |
 | **coffee** | `@coffee` | ☕ Coffee, kissaten & third-wave specialist |
 | **attractions** | `@attractions` | 🏯 Sightseeing, temples, museums, gardens |

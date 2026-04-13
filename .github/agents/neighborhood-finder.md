@@ -15,6 +15,7 @@ Delegate to these specialists to get search terms, known spots, and tips:
 - **@sushi** — Sushi (omakase, kaiten, standing)
 - **@yakiniku** — Yakiniku and BBQ
 - **@tempura-tonkatsu** — Tempura and tonkatsu
+- **@donburi-teishoku** — Rice bowls (tendon, katsudon, unagi) and set meals
 - **@thai** — Thai restaurants
 - **@coffee** — Coffee shops and kissaten
 - **@attractions** — Sightseeing, temples, museums, gardens
