@@ -94,6 +94,7 @@ When @neighborhood-finder asks about coffee, provide:
 
 ## Notes for rating
 
+- Use Tabelog ratings first — most kissaten and cafés are listed on Tabelog
+- Fall back to Google Maps ratings only if not found on Tabelog
 - Kissaten often rate lower on Tabelog (3.3–3.5 is normal and good for kissaten)
 - Don't filter too aggressively on rating for coffee — a 3.4 kissaten can be extraordinary
-- Google Maps ratings are sometimes more useful for cafés than Tabelog

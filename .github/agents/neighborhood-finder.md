@@ -207,7 +207,7 @@ Desktop — tables with a rating column:
 | Name | Category | Area | Distance | ⭐ Rating | 💰 Price |
 ```
 
-**Important:** Every table output MUST include a ⭐ Rating column. For food, use Tabelog ratings. For coffee, attractions, and stationery, use Google Maps ratings if Tabelog is not applicable.
+**Important:** Every table output MUST include a ⭐ Rating column. For food and coffee, use Tabelog ratings first (fall back to Google Maps if not on Tabelog). For attractions and stationery, use Google Maps ratings.
 
 ## User's home address
 
