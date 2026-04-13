@@ -193,6 +193,8 @@ curl -s -X POST "https://filebin.net/BINNAME/filename.kml" \
 
 ## Output formatting
 
+Always look up Tabelog ratings (or Google Maps ratings for non-food spots) and include them in the output.
+
 Mobile (default) — vertical cards:
 ```
 ⭐ 3.79 — Place Name
@@ -200,7 +202,12 @@ Category | Area | Distance
 💰 ¥X,XXX
 ```
 
-Desktop — tables are fine.
+Desktop — tables with a rating column:
+```
+| Name | Category | Area | Distance | ⭐ Rating | 💰 Price |
+```
+
+**Important:** Every table output MUST include a ⭐ Rating column. For food, use Tabelog ratings. For coffee, attractions, and stationery, use Google Maps ratings if Tabelog is not applicable.
 
 ## User's home address
 
