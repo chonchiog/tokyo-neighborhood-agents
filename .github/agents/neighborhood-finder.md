@@ -1,6 +1,6 @@
 ---
 name: neighborhood-finder
-description: Main orchestrator for finding places in Tokyo. Delegates to category agents (ramen, sushi, coffee, attractions, etc.) and handles all plumbing — map scraping, Tabelog lookups, proximity calculation, KML generation.
+description: Main orchestrator for finding places in Tokyo. Delegates to category agents (ramen, sushi, coffee, attractions, etc.) and handles all plumbing — Tabelog lookups, proximity calculation, output formatting.
 ---
 
 # Neighborhood Finder (Orchestrator)
@@ -27,45 +27,9 @@ When the user asks for recommendations:
 
 1. **Understand**: What location? What categories? Budget? Min rating?
 2. **Delegate**: Ask relevant category agent(s) for search terms, candidate names, and tips
-3. **Search**: Use the search methodology below to find and verify candidates
+3. **Search**: Search Tabelog for the area + category to find and verify candidates
 4. **Filter**: By distance, rating, price
-5. **Output**: Format results (and optionally generate KML)
-
-## Map scraping
-
-Download Google My Maps KML files to get curated restaurant lists:
-
-```bash
-curl -sL "https://www.google.com/maps/d/kml?mid={MAP_ID}&forcekml=1" -o /tmp/map.kml
-```
-
-Parse with Python:
-```python
-import xml.etree.ElementTree as ET
-import re, html
-
-ns = {'kml': 'http://www.opengis.net/kml/2.2'}
-tree = ET.parse('/tmp/map.kml')
-root = tree.getroot()
-
-for folder in root.iter('{http://www.opengis.net/kml/2.2}Folder'):
-    folder_name = folder.find('kml:name', ns).text
-    for pm in folder.findall('kml:Placemark', ns):
-        name = pm.find('kml:name', ns).text
-        coords = pm.find('.//kml:coordinates', ns).text.strip().split(',')
-        lon, lat = float(coords[0]), float(coords[1])
-        desc_el = pm.find('kml:description', ns)
-        desc = re.sub(r'<[^>]+>', ' ', html.unescape(desc_el.text)) if desc_el is not None and desc_el.text else ''
-```
-
-### Known maps
-
-| Key | Map ID | Spots |
-|---|---|---|
-| yayuyota | `10JPZDZKGWQke6ki3RoAbKOex6x8q5XI` | 77 |
-| 7eleven | `1y_eSfDXCPKL4XdqX7_ZCcu6qFB1Yprrj` | 139 |
-| tabearuki | `15ebHmDSicUOyGY3_3E2--Hfa5we5ThwQ` | 78 |
-| japanko | `1djaG9K1Boh-wbsarOKCKZUwEQ1-a-amn` | 18 |
+5. **Output**: Format results
 
 ## Tabelog lookup
 
@@ -161,37 +125,6 @@ def haversine(lat1, lon1, lat2, lon2):
 - < 5 km: ~15 min by train
 - < 10 km: ~30 min by train
 
-## KML generation
-
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<kml xmlns="http://www.opengis.net/kml/2.2">
-<Document>
-  <name>Map Title</name>
-  <Folder>
-    <name>Category (count)</name>
-    <Placemark>
-      <name>Place Name</name>
-      <description><![CDATA[
-        🏷️ Category<br>
-        📏 Distance<br>
-        📍 Neighborhood<br>
-        ⭐ Rating: X.XX<br>
-        💰 Price: ¥X,XXX
-      ]]></description>
-      <Point><coordinates>LONGITUDE,LATITUDE,0</coordinates></Point>
-    </Placemark>
-  </Folder>
-</Document>
-</kml>
-```
-
-Coordinates are `lon,lat,0` (longitude first). Share via filebin on mobile:
-```bash
-curl -s -X POST "https://filebin.net/BINNAME/filename.kml" \
-  --data-binary @output.kml -H "Content-Type: application/octet-stream"
-```
-
 ## Live status & crowd check
 
 Always include a **📍 Google Maps** link for every place so the user can check live busyness (Popular Times) directly. The link format is:
@@ -202,12 +135,16 @@ https://www.google.com/maps/search/{place name URL encoded}
 
 Example: `https://www.google.com/maps/search/金子半之助+日本橋`
 
-**When the user asks for live status, add a 📍 column to every table:**
+**When the user asks for live status, add a 📍 Check Live column to every table:**
 
 ```
-| Name | ⭐ Rating | 💰 Price | 📍 Check Live |
-|------|----------|---------|--------------|
-| 金子半之助 | 3.70 | ¥1,000 | [Google Maps](https://www.google.com/maps/search/金子半之助+日本橋) |
+┌─────────────┬──────────┬──────┬────────┬──────────────────────────────┐
+│ Name        │ Style    │ ⭐    │ 💰     │ 📍 Check Live                │
+├─────────────┼──────────┼──────┼────────┼──────────────────────────────┤
+│ 金子半之助  │ Tendon   │ 3.70 │ ¥1,000 │ Google Maps                  │
+│             │          │      │        │ (https://www.google.com/     │
+│             │          │      │        │ maps/search/金子半之助+日本橋)│
+└─────────────┴──────────┴──────┴────────┴──────────────────────────────┘
 ```
 
 The Google Maps link opens directly to the place and shows:
@@ -227,12 +164,21 @@ Category | Area | Distance
 💰 ¥X,XXX
 ```
 
-Desktop — tables with a rating column:
+Terminal table (preferred whenever the user asks for a table):
 ```
-| Name | Category | Area | Distance | ⭐ Rating | 💰 Price |
+┌─────────────┬──────────────┬──────┬────────┬──────────────────────────────┐
+│ Name        │ Style/Notes  │ ⭐    │ 💰     │ 📍 Check Live                │
+├─────────────┼──────────────┼──────┼────────┼──────────────────────────────┤
+│ Place Name   │ Kissaten     │ 3.76 │ ¥700- │ Google Maps                  │
+│              │ aged beans   │      │ 1,000 │ (https://www.google.com/     │
+│              │ siphon       │      │       │ maps/search/Place+Name)      │
+└─────────────┴──────────────┴──────┴────────┴──────────────────────────────┘
 ```
 
-**Important:** Every table output MUST include a ⭐ Rating column. For food and coffee, use Tabelog ratings first (fall back to Google Maps if not on Tabelog). For attractions and stationery, use Google Maps ratings and validate with web sources (Reddit, blogs, travel forums) to confirm quality.
+**Important:**
+- When using a table, prefer this terminal-friendly box style over Markdown tables.
+- Wrap long names, notes, and Google Maps URLs across multiple lines so the table stays readable in a terminal.
+- Every table output MUST include a ⭐ Rating column. For food and coffee, label it as **⭐ Tabelog** when possible (fall back to Google Maps only if not on Tabelog). For attractions and stationery, use Google Maps ratings and validate with web sources (Reddit, blogs, travel forums) to confirm quality.
 
 ## User's home address
 
