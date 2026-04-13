@@ -192,34 +192,29 @@ curl -s -X POST "https://filebin.net/BINNAME/filename.kml" \
   --data-binary @output.kml -H "Content-Type: application/octet-stream"
 ```
 
-## Live status check
+## Live status & crowd check
 
-When the user asks about live status, availability, queues, or "is it busy?", use `check_busy.js` to check every place in real time:
+Always include a **📍 Google Maps** link for every place so the user can check live busyness (Popular Times) directly. The link format is:
 
-```bash
-node check_busy.js "place name 1" "place name 2" "place name 3"
+```
+https://www.google.com/maps/search/{place name URL encoded}
 ```
 
-Run this from the repo root (it auto-loads `.env` for the API key).
+Example: `https://www.google.com/maps/search/金子半之助+日本橋`
 
-This uses the Google Places API (New) and returns:
+**When the user asks for live status, add a 📍 column to every table:**
+
+```
+| Name | ⭐ Rating | 💰 Price | 📍 Check Live |
+|------|----------|---------|--------------|
+| 金子半之助 | 3.70 | ¥1,000 | [Google Maps](https://www.google.com/maps/search/金子半之助+日本橋) |
+```
+
+The Google Maps link opens directly to the place and shows:
 - 🟢/🔴 Open or closed right now
-- ⭐ Google Maps rating + review count
-- 📞 Phone number (to call and ask about queue/wait)
-- 📍 Direct Google Maps link (tap to check live crowd on phone)
-
-**When the user asks for live status, add a "Status" column to every table:**
-
-```
-| Name | ⭐ Rating | 💰 Price | Status | 📞 Phone |
-|------|----------|---------|--------|----------|
-| Place | 3.71 | ¥1,000 | 🟢 OPEN | 03-XXXX-XXXX |
-| Place | 3.55 | ¥5,000 | 🔴 CLOSED (opens 5pm) | 03-XXXX-XXXX |
-```
-
-**To check for a queue:** Google does not expose live busyness via API. Tell the user to:
-1. Call the restaurant (📞 number provided)
-2. Tap the 📍 Google Maps link on their phone — the app shows "Live busyness"
+- 📊 Popular Times bar chart with live busyness indicator
+- ⏱️ Wait time estimates (when available)
+- 📞 Phone number
 
 ## Output formatting
 
