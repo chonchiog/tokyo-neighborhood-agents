@@ -94,5 +94,6 @@ When @neighborhood-finder asks about stationery, provide:
 
 Stationery shops don't use Tabelog. Instead:
 - Google Maps ratings (4.0+ is good)
+- Validate with web sources — search Reddit (r/fountainpens, r/stationery, r/JapanTravel), stationery blogs, and Japanese sites
 - Web search for "東京 文房具 おすすめ" / "文具店 聖地"
 - Prioritize shops with unique offerings (custom notebooks, rare inks, etc.)

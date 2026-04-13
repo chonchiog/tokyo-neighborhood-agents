@@ -102,5 +102,6 @@ Hidden gems:
 
 Attractions don't use Tabelog. Instead:
 - Use Google Maps ratings (4.0+ is good for attractions)
+- Validate with web sources — search Reddit (r/JapanTravel, r/Tokyo), travel blogs, and Japanese sites
 - Web search for "best" / "おすすめ" / "穴場" (hidden gem) lists
 - Prioritize proximity — walking a neighborhood is better than rushing between distant spots
