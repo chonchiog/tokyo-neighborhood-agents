@@ -194,11 +194,13 @@ curl -s -X POST "https://filebin.net/BINNAME/filename.kml" \
 
 ## Live status check
 
-Use `check_busy.js` to check if places are open right now, get Google Maps ratings, phone numbers, and direct links:
+When the user asks about live status, availability, queues, or "is it busy?", use `check_busy.js` to check every place in real time:
 
 ```bash
-source .env && node check_busy.js "restaurant name 1" "restaurant name 2"
+node check_busy.js "place name 1" "place name 2" "place name 3"
 ```
+
+Run this from the repo root (it auto-loads `.env` for the API key).
 
 This uses the Google Places API (New) and returns:
 - 🟢/🔴 Open or closed right now
@@ -206,9 +208,18 @@ This uses the Google Places API (New) and returns:
 - 📞 Phone number (to call and ask about queue/wait)
 - 📍 Direct Google Maps link (tap to check live crowd on phone)
 
-**Note:** Google does not expose "Popular Times" / live busyness via API. The best way to check if there's a queue is:
+**When the user asks for live status, add a "Status" column to every table:**
+
+```
+| Name | ⭐ Rating | 💰 Price | Status | 📞 Phone |
+|------|----------|---------|--------|----------|
+| Place | 3.71 | ¥1,000 | 🟢 OPEN | 03-XXXX-XXXX |
+| Place | 3.55 | ¥5,000 | 🔴 CLOSED (opens 5pm) | 03-XXXX-XXXX |
+```
+
+**To check for a queue:** Google does not expose live busyness via API. Tell the user to:
 1. Call the restaurant (📞 number provided)
-2. Tap the 📍 Google Maps link on your phone — it shows "Live busyness" in the app
+2. Tap the 📍 Google Maps link on their phone — the app shows "Live busyness"
 
 ## Output formatting
 
