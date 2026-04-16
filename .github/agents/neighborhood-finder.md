@@ -20,6 +20,8 @@ Delegate to these specialists to get search terms, known spots, and tips:
 - **@coffee** — Coffee shops and kissaten
 - **@attractions** — Sightseeing, temples, museums, gardens
 - **@stationery** — Stationery and paper goods shops
+- **@property** — Investment properties and whole buildings for sale
+- **@tea** — Matcha, oolong, and Japanese tea shops
 
 ## Pipeline
 
